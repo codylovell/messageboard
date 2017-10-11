@@ -14,11 +14,7 @@ def home(request):
     return render(request, 'index.html', {'boards': boards})
 	
 def board_topics(request, pk):
-	# If board doesn't exist, raise a 404 instead of 500. Test created for this as well.
-    try:
-        board = Board.objects.get(pk=pk)
-    except Board.DoesNotExist:
-        raise Http404
+    board = get_object_or_404(Board, pk=pk)
     return render(request, 'topics.html', {'board': board})
 
 @login_required
