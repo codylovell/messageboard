@@ -30,13 +30,40 @@ urlpatterns = [
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 	url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+	# Start of password reset URLs
+	url(r'^reset/$',
+    auth_views.PasswordResetView.as_view(
+        template_name='password_reset.html',
+        email_template_name='password_reset_email.html',
+        subject_template_name='password_reset_subject.txt'
+    ),
+    name='password_reset'),
+	url(r'^reset/done/$',
+    auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
+    name='password_reset_done'),
+	url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),
+    name='password_reset_confirm'),
+	url(r'^reset/complete/$',
+    auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+    name='password_reset_complete'),
+	# End of password reset URLs
+	
+	# Change password for logged in user
+	url(r'^settings/password/$', auth_views.PasswordChangeView.as_view(template_name='password_change.html'),
+    name='password_change'),
+    url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
+    name='password_change_done'),
+	# End Change password for logged in user
+	
+]
+
 	
 	# url(r'^about/$', views.about, name='about'), # Ensure simple URLs like 'about' go before super-inclusive names like the one below. Someone could sign up with the name 'about' that would match first since it's looking for users right off the root URL.
 	# url(r'^(?P<username>[\w.@+-]+)/$', views.user_profile, name='user_profile'),
 	# url(r'^about/company/$', views.about_company, name='about_company'),
     # url(r'^about/author/$', views.about_author, name='about_author'),
     # url(r'^privacy/$', views.privacy_policy, name='privacy_policy'),
-]
 
 #  Sidenote: Consider creating unique paths for users, like u/david on reddit or /@david on Twitter
 
