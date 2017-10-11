@@ -56,6 +56,8 @@ urlpatterns = [
     name='password_change_done'),
 	# End Change password for logged in user
 	
+	url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/$', views.topic_posts, name='topic_posts'), #pk which is used to identify the Board, and now we have the topic_pk which is used to identify which topic to retrieve from the database.
+	
 ]
 
 	
